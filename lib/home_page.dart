@@ -1,10 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:loader_animation/extensions.dart';
+import 'package:loader_animation/circle_animation.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    const double squareSide = 120;
+
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: SizedBox(
+              width: squareSide,
+              height: squareSide,
+              child: Stack(
+                children: squareSide
+                    .pathsList()
+                    .map(
+                      (element) => CircleAnimation(path: element),
+                    )
+                    .toList(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
