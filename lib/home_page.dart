@@ -11,9 +11,10 @@ class HomePage extends StatelessWidget {
 
     return Scaffold(
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          /// Loader Animation - 1
           Center(
             child: SizedBox(
               width: squareSide,
@@ -22,12 +23,16 @@ class HomePage extends StatelessWidget {
                 children: squareSide
                     .pathsList()
                     .map(
-                      (element) => CircleAnimation(path: element),
+                      (element) => CircleAnimation(
+                        path: element,
+                      ),
                     )
                     .toList(),
               ),
             ),
           ),
+
+          /// Loader Animation - 2
         ],
       ),
     );

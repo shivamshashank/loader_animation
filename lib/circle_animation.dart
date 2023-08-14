@@ -25,7 +25,7 @@ class _CircleAnimationState extends State<CircleAnimation>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
     );
     _animation = Tween(begin: 0.0, end: 1.0).animate(_controller)
       ..addListener(

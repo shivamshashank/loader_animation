@@ -1,65 +1,47 @@
 import 'dart:ui';
 
 extension CustomPath on double {
-  List<Path> pathsList() {
+  Path _generatePath(int x, int y) {
     Size size = Size(this, this);
 
-    /// Path1
-    Path path1 = Path();
-    path1.moveTo(size.width / 2, size.height / 2);
-    path1.lineTo(size.width / 4, size.height / 4);
-    path1.arcToPoint(
-      Offset(3 * size.width / 4, 3 * size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path1.arcToPoint(
-      Offset(size.width / 4, size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path1.lineTo(size.width / 2, size.height / 2);
+    final double sw = size.width;
+    final double sh = size.height;
 
-    /// Path2
-    Path path2 = Path();
-    path2.moveTo(size.width / 2, size.height / 2);
-    path2.lineTo(3 * size.width / 4, size.height / 4);
-    path2.arcToPoint(
-      Offset(size.width / 4, 3 * size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path2.arcToPoint(
-      Offset(3 * size.width / 4, size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path2.lineTo(size.width / 2, size.height / 2);
+    final int mirrorX = x == 1 ? 3 : 1;
+    final int mirrorY = y == 1 ? 3 : 1;
 
-    /// Path3
-    Path path3 = Path();
-    path3.moveTo(size.width / 2, size.height / 2);
-    path3.lineTo(3 * size.width / 4, 3 * size.height / 4);
-    path3.arcToPoint(
-      Offset(size.width / 4, size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path3.arcToPoint(
-      Offset(3 * size.width / 4, 3 * size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path3.lineTo(size.width / 2, size.height / 2);
+    Path path = Path();
 
-    /// Path4
-    Path path4 = Path();
-    path4.moveTo(size.width / 2, size.height / 2);
-    path4.lineTo(size.width / 4, 3 * size.height / 4);
-    path4.arcToPoint(
-      Offset(3 * size.width / 4, size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path4.arcToPoint(
-      Offset(size.width / 4, 3 * size.height / 4),
-      radius: Radius.circular(this / 4),
-    );
-    path4.lineTo(size.width / 2, size.height / 2);
+    path.moveTo(sw / 2, sh / 2);
+    path.lineTo(x * sw / 4, y * sh / 4);
 
-    return [path1, path2, path3, path4];
+    for (int i = 0; i < 2; i++) {
+      path.arcToPoint(
+        Offset(mirrorX * sw / 4, mirrorY * sh / 4),
+        radius: Radius.circular(this / 4),
+      );
+      path.arcToPoint(
+        Offset(x * sw / 4, y * sh / 4),
+        radius: Radius.circular(this / 4),
+      );
+    }
+
+    path.lineTo(sw / 2, sh / 2);
+
+    return path;
+  }
+
+  List<Path> pathsList() {
+    final List<(int, int)> pathCoordinates = [(1, 1), (3, 1), (3, 3), (1, 3)];
+
+    final List<Path> list = [];
+
+    for ((int, int) element in pathCoordinates) {
+      list.add(
+        _generatePath(element.$1, element.$2),
+      );
+    }
+
+    return list;
   }
 }
