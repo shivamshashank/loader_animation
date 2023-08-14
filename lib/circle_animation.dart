@@ -19,6 +19,8 @@ class _CircleAnimationState extends State<CircleAnimation>
   late AnimationController _controller;
   late Animation _animation;
 
+  final double widgetSize = 16;
+
   @override
   void initState() {
     _controller = AnimationController(
@@ -37,16 +39,20 @@ class _CircleAnimationState extends State<CircleAnimation>
 
   @override
   Widget build(BuildContext context) {
+    final Offset? offset = calculate(_animation.value);
+
+    if (offset == null) return const SizedBox.shrink();
+
     return Positioned(
-      top: calculate(_animation.value)?.dy,
-      left: calculate(_animation.value)?.dx,
+      top: offset.dy - widgetSize / 2,
+      left: offset.dx - widgetSize / 2,
       child: Container(
         decoration: const BoxDecoration(
           color: Colors.black54,
           shape: BoxShape.circle,
         ),
-        width: 16,
-        height: 16,
+        width: widgetSize,
+        height: widgetSize,
       ),
     );
   }
