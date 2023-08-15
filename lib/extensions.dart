@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 extension CustomPath on double {
   Path _generatePath(int x, int y) {
@@ -40,6 +40,43 @@ extension CustomPath on double {
       list.add(
         _generatePath(element.$1, element.$2),
       );
+    }
+
+    return list;
+  }
+
+  List<Path> linePath(BuildContext context) {
+    Size size = Size(MediaQuery.sizeOf(context).width, this);
+
+    final double sw = size.width;
+    final double sh = size.height;
+
+    final List<Path> list = [];
+
+    for (int element in [-1, 1]) {
+      Path path = Path();
+
+      path.moveTo(sw / 2 + (element * sw / 2), sh / 2);
+      path.lineTo(sw / 2 + (element * this) / 4, sh / 2);
+
+      path.arcToPoint(
+        Offset(sw / 2 - (element * this) / 4, sh / 2),
+        radius: Radius.circular(this / 4),
+      );
+
+      path.arcToPoint(
+        Offset(sw / 2 + (element * this) / 4, sh / 2),
+        radius: Radius.circular(this / 4),
+      );
+
+      path.arcToPoint(
+        Offset(sw / 2 - (element * this) / 4, sh / 2),
+        radius: Radius.circular(this / 4),
+      );
+
+      path.lineTo(sw / 2 - (element * sw / 2), sh / 2);
+
+      list.add(path);
     }
 
     return list;
